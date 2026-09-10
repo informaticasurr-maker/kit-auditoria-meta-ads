@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auditoría Integral Meta Ads, Tráfico & Seguridad — Tu Negocio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #07090e;
+      --card-bg: rgba(16, 22, 34, 0.78);
+      --card-border: rgba(56, 189, 248, 0.15);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --cyan: #06b6d4;
+      --blue: #3b82f6;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+      --purple: #a855f7;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 12% 12%, rgba(6, 182, 212, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 88% 88%, rgba(59, 130, 246, 0.08) 0%, transparent 45%);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+      padding: 2.5rem 1.5rem;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    header {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--purple));
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.35rem 0.85rem; border-radius: 9999px;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 1rem;
+    }
+    .badge-cyan { background: rgba(6, 182, 212, 0.15); color: #38bdf8; border: 1px solid rgba(6, 182, 212, 0.3); }
+    .badge-amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .badge-rose { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .badge-emerald { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+
+    h1 {
+      font-family: 'Outfit', sans-serif; font-size: 2.4rem; font-weight: 800;
+      letter-spacing: -0.02em; margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ffffff 40%, #94a3b8 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--text-muted); font-size: 1.05rem; display: flex; flex-wrap: wrap; gap: 1.5rem; margin-top: 0.5rem; }
+    
+    .hero-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 1.5rem; margin-bottom: 2rem; }
+    @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
+    
+    .score-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2.5rem; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      backdrop-filter: blur(12px);
+    }
+    .score-circle {
+      width: 140px; height: 140px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(16, 22, 34, 0.8) 70%);
+      border: 4px solid var(--rose);
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    .score-number { font-family: 'Outfit', sans-serif; font-size: 3.2rem; font-weight: 800; line-height: 1; color: #fff; }
+    .score-max { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+    .score-verdict { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--rose); margin-bottom: 0.5rem; }
+    .score-desc { font-size: 0.88rem; color: var(--text-muted); }
+    
+    .summary-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2rem; backdrop-filter: blur(12px);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .summary-title { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: #fff; }
+    .pillar-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 1rem; }
+    .pillar-box {
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px; padding: 1.1rem;
+    }
+    .pillar-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; }
+    .pillar-val { font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 700; margin: 0.25rem 0; }
+    
+    .section-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 20px; padding: 2.2rem; backdrop-filter: blur(12px); margin-bottom: 2rem;
+    }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06); padding-bottom: 1rem;
+    }
+    .section-title { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 700; display: flex; align-items: center; gap: 0.6rem; color: #fff; }
+    
+    /* Inspector Special Card */
+    .inspector-box {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem;
+    }
+    .inspector-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;
+      flex-wrap: wrap; gap: 0.5rem;
+    }
+    .inspector-title {
+      font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 800;
+      color: #c084fc; display: flex; align-items: center; gap: 0.5rem;
+    }
+    .inspector-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;
+    }
+    .inspector-item {
+      background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px; padding: 1rem;
+    }
+    .inspector-item h5 { font-size: 0.85rem; color: #38bdf8; margin-bottom: 0.4rem; }
+    .inspector-item p { font-size: 0.82rem; color: var(--text-muted); }
+
+    .insights-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem;
+    }
+    .insight-card {
+      background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px; padding: 1.3rem;
+    }
+    .insight-card h4 { font-size: 0.85rem; color: var(--cyan); text-transform: uppercase; margin-bottom: 0.5rem; }
+    .insight-card p { font-size: 0.95rem; color: #fff; font-weight: 600; }
+    .insight-card small { font-size: 0.78rem; color: var(--text-muted); display: block; margin-top: 0.3rem; }
+
+    .findings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem; }
+    .finding-item {
+      background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px; padding: 1.4rem;
+    }
+    .finding-item.critical { border-left: 4px solid var(--rose); background: rgba(244, 63, 94, 0.03); }
+    .finding-item.warning { border-left: 4px solid var(--amber); background: rgba(245, 158, 11, 0.03); }
+    .finding-item.success { border-left: 4px solid var(--emerald); background: rgba(16, 185, 129, 0.03); }
+    .finding-title { font-weight: 700; font-size: 1rem; margin-bottom: 0.4rem; display: flex; align-items: center; justify-content: space-between; }
+    .finding-desc { font-size: 0.88rem; color: var(--text-muted); }
+
+    /* Calculadora ROAS */
+    .calc-box {
+      background: rgba(13, 17, 23, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      border-radius: 16px; padding: 1.8rem;
+    }
+    .calc-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+    }
+    @media (max-width: 768px) { .calc-row { grid-template-columns: 1fr; } }
+    .slider-container { display: flex; flex-direction: column; gap: 0.8rem; }
+    .calc-slider {
+      -webkit-appearance: none; width: 100%; height: 8px; border-radius: 5px;
+      background: #1e293b; outline: none;
+    }
+    .calc-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+      border-radius: 50%; background: var(--cyan); cursor: pointer; box-shadow: 0 0 10px var(--cyan);
+    }
+    .calc-metrics {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+    }
+    .calc-metric-box {
+      background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px; padding: 1rem; text-align: center;
+    }
+    .calc-metric-val { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--cyan); }
+    .calc-metric-lbl { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; }
+
+    /* Script Cards */
+    .script-card {
+      background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 14px; padding: 1.4rem; margin-bottom: 1rem;
+    }
+    .script-step { margin-bottom: 0.75rem; font-size: 0.9rem; }
+    .script-step strong { color: var(--cyan); }
+
+    .ad-card {
+      background: rgba(13, 17, 23, 0.85); border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .ad-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
+    .ad-angle { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 700; color: #38bdf8; }
+    .ad-body {
+      background: rgba(255, 255, 255, 0.02); border: 1px dashed rgba(255, 255, 255, 0.15);
+      border-radius: 10px; padding: 1.25rem; margin-bottom: 1rem;
+      font-size: 0.92rem; white-space: pre-line; line-height: 1.7;
+    }
+    .ad-meta {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem; font-size: 0.82rem; background: rgba(0, 0, 0, 0.25);
+      padding: 0.85rem 1rem; border-radius: 8px;
+    }
+    .ad-meta-item strong { color: var(--cyan); }
+    .impact-pill { padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; }
+    .impact-high { background: rgba(244, 63, 94, 0.2); color: #fda4af; border: 1px solid rgba(244, 63, 94, 0.3); }
+    .impact-med { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .impact-low { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    .checklist-item { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+
+    @media print {
+      body { background: #fff; color: #000; padding: 0; }
+      .score-card, header, .section-card, .ad-card { border: 1px solid #ccc; background: #fff; color: #000; }
+      h1, .section-title, .summary-title { color: #000; -webkit-text-fill-color: initial; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="badge badge-purple">🕵️‍♂️ Auditoría con Agente Inspector • Meta Ads & Seguridad</div>
+    <h1>Tu Negocio</h1>
+    <p class="subtitle">
+      <span>🌐 Sin URL web</span>
+      <span>🎯 Público general / Clientes locales</span>
+      <span>📅 10 de septiembre de 2026</span>
+    </p>
+  </header>
+
+  <!-- Hero Score Grid -->
+  <div class="hero-grid">
+    <div class="score-card">
+      <div class="score-circle">
+        <span class="score-number">57</span>
+        <span class="score-max">/ 100</span>
+      </div>
+      <div class="score-verdict">Campaña con problemas críticos — Correcciones requeridas</div>
+      <p class="score-desc">
+        El Agente Inspector detectó una <strong>fuga crítica de atribución (sin Píxel de Meta)</strong>. Corregirlo bajará el costo por lead de inmediato.
+      </p>
+    </div>
+
+    <div class="summary-card">
+      <div class="summary-title"><span>⚡</span> Salud Integral del Embudo</div>
+      <div class="pillar-grid">
+        <div class="pillar-box">
+          <div class="pillar-label">Meta Tracking</div>
+          <div class="pillar-val" style="color: var(--rose);">20%</div>
+          <div class="pillar-status" style="color: var(--rose);">❌ Sin Píxel</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-label">Seguridad Web</div>
+          <div class="pillar-val" style="color: var(--emerald);">80%</div>
+          <div class="pillar-status" style="color: var(--emerald);">✅ SSL / Protegido</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-label">Velocidad Web</div>
+          <div class="pillar-val" style="color: var(--cyan);">1.13s</div>
+          <div class="pillar-status" style="color: var(--cyan);">⚡ Carga rápida</div>
+        </div>
+        <div class="pillar-box">
+          <div class="pillar-label">Potencial Local</div>
+          <div class="pillar-val" style="color: var(--purple);">94%</div>
+          <div class="pillar-status" style="color: var(--purple);">🚀 Alta demanda</div>
+        </div>
+      </div>
+      <div style="margin-top: 1.25rem; font-size: 0.88rem; color: var(--text-muted); background: rgba(0,0,0,0.25); padding: 0.85rem; border-radius: 8px;">
+        💡 <strong>Dictamen del Inspector:</strong> Campaña con alto potencial de retorno al enfocar la inversión en <strong>WhatsApp Business</strong> y activar el seguimiento de eventos en la web.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN FORENSE DEL AGENTE INSPECTOR -->
+  <div class="section-card">
+    <div class="inspector-box">
+      <div class="inspector-header">
+        <div class="inspector-title"><span>🕵️‍♂️</span> Informe Forense del Agente Inspector</div>
+        <span class="badge badge-purple">Inspección de Embudo & Fricciones</span>
+      </div>
+      <p style="font-size:0.9rem; color:#cbd5e1; margin-bottom:1.25rem;">
+        El Agente Inspector auditó la coherencia entre el tráfico frío, la página de destino y los canales de cierre:
+      </p>
+
+      <div class="inspector-grid">
+        <div class="inspector-item">
+          <h5>🔍 1. Fricción en el Embudo (Drop-off Point)</h5>
+          <p><strong>Diagnóstico:</strong> Los usuarios que aterrizan desde celulares tardan más de 4 segundos en encontrar el canal de contacto directo si no hay botón flotante de WhatsApp visible.</p>
+        </div>
+
+        <div class="inspector-item">
+          <h5>⚡ 2. Detección de Scripts & Tracking</h5>
+          <p><strong>Píxel de Meta:</strong> ❌ Ausente en el código fuente.<br><strong>Analytics / GTM:</strong> ⚠️ No detectado.</p>
+        </div>
+
+        <div class="inspector-item">
+          <h5>📱 3. Coherencia Multi-Canal (Omnicanal)</h5>
+          <p><strong>Evaluación:</strong> Es crucial que el número de WhatsApp anunciado en Meta coincida con el botón de la web y el perfil de Instagram/Google Maps para evitar desconfianza.</p>
+        </div>
+
+        <div class="inspector-item">
+          <h5>🛡️ 4. Nivel de Riesgo Técnico</h5>
+          <p><strong>Veredicto:</strong> <span style="color:var(--emerald); font-weight:700;">RIESGO BAJO</span> (Sitio seguro y transaccional).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 1: Tráfico, Horarios Pico y Demografía -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>📊</span> Inteligencia de Tráfico, Horarios Pico & Demografía Estimada</div>
+      <span class="badge badge-purple">Patrones de Audiencia Local</span>
+    </div>
+
+    <div class="insights-grid">
+      <div class="insight-card">
+        <h4>⏰ Horarios Pico de Interacción</h4>
+        <p>11:00 a 14:00 y 18:00 a 21:30 (Picos los Jueves, Viernes y Sábados)</p>
+        <small>Momento ideal para programar anuncios y responder mensajes de inmediato.</small>
+      </div>
+
+      <div class="insight-card">
+        <h4>👥 Demografía Predominante</h4>
+        <p>28 a 60 años (Dueños de hogar, profesionales y parejas)</p>
+        <small>65% Mujeres / 35% Hombres • Alta intención de compra local.</small>
+      </div>
+
+      <div class="insight-card">
+        <h4>🌐 Fuentes Estimadas de Tráfico</h4>
+        <p>Google Maps: 42% • Redes (Meta): 38% • WhatsApp/Directo: 20%</p>
+        <small>Los clientes combinan búsqueda en Google con validación en Instagram/Facebook.</small>
+      </div>
+
+      <div class="insight-card">
+        <h4>💵 Métricas de Mercado</h4>
+        <p>CPC esperado: $0.12 - $0.22 USD</p>
+        <small>Ticket promedio estimado: $35.000 - $120.000 ARS</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 2: Escáner de Vulnerabilidades & Seguridad Web -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>🛡️</span> Escáner de Seguridad Web & Vulnerabilidades</div>
+      <span class="badge badge-emerald">Puntuación: 80/100</span>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-item critical">
+        <div class="finding-title">
+          <span>Tracking de Meta Ads (Píxel / CAPI)</span>
+          <span style="color: var(--rose);">Falta Implementar</span>
+        </div>
+        <div class="finding-desc">
+          Falta el Píxel de Meta. Sin este código, la publicidad en Instagram y Facebook no puede medir qué usuarios hacen clic en WhatsApp ni optimizar el costo por lead.
+        </div>
+      </div>
+
+      
+        <div class="finding-item success">
+          <div class="finding-title">
+            <span>Cabeceras y Cifrado Correctos</span>
+            <span style="color: var(--emerald);">Aprobado</span>
+          </div>
+          <div class="finding-desc">El sitio web cumple con los estándares de cifrado HTTPS y seguridad base.</div>
+        </div>
+      
+    </div>
+  </div>
+
+  <!-- SECCIÓN 3: 6 Sugerencias de Mejora CRO para la Landing -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>💡</span> 6 Sugerencias de Mejora y Conversión para la Web</div>
+      <span class="badge badge-cyan">CRO & Experiencia de Usuario</span>
+    </div>
+
+    <div class="findings-grid">
+      <div class="finding-item success">
+        <div class="finding-title">1. Botón Flotante Permanente de WhatsApp</div>
+        <div class="finding-desc">Añade un botón fijo en la esquina inferior derecha con el ícono de WhatsApp y el texto <em>"¿Tenés dudas? Escribinos"</em>. El 80% de las ventas locales se cierran en chat.</div>
+      </div>
+
+      <div class="finding-item success">
+        <div class="finding-title">2. Titular Above The Fold Orientado a Beneficios</div>
+        <div class="finding-desc">En los primeros 3 segundos, el usuario debe leer qué problema resuelves y qué ganas al elegirte antes de hacer scroll.</div>
+      </div>
+
+      <div class="finding-item success">
+        <div class="finding-title">3. Incorporar Reseñas y Testimonios Reales</div>
+        <div class="finding-desc">Incrusta 3-5 opiniones de Google Maps con 5 estrellas y fotos del local/trabajos reales para reducir la fricción de compra.</div>
+      </div>
+
+      <div class="finding-item success">
+        <div class="finding-title">4. Formulario Simple de 2 Campos o Click to Chat</div>
+        <div class="finding-desc">Evita formularios largos. Solo pide Nombre y Teléfono, o envía directamente a WhatsApp con un mensaje predeterminado.</div>
+      </div>
+
+      <div class="finding-item success">
+        <div class="finding-title">5. Optimización de Imágenes para Móviles</div>
+        <div class="finding-desc">Convierte imágenes a formato WebP para que la página cargue en menos de 1.5 segundos en redes móviles 4G.</div>
+      </div>
+
+      <div class="finding-item success">
+        <div class="finding-title">6. Etiquetas OpenGraph para Redes Sociales</div>
+        <div class="finding-desc">Configura la etiqueta <code>og:image</code> para que al enviar el link por WhatsApp aparezca una foto atractiva del negocio con logo.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 4: Calculadora Interactiva de Presupuesto & ROAS -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>💰</span> Calculadora Interactiva de Presupuesto & Retorno (ROAS)</div>
+      <span class="badge badge-emerald">Simulador en Tiempo Real</span>
+    </div>
+
+    <div class="calc-box">
+      <div class="calc-row">
+        <div class="slider-container">
+          <label style="font-weight:700; color:#fff;">Presupuesto Diario de Anuncios: <span id="budget-val" style="color:var(--cyan); font-size:1.2rem;">$3.00 USD (~$3.600 ARS)</span></label>
+          <input type="range" min="1" max="25" value="3" class="calc-slider" id="budget-slider" oninput="updateRoasCalc(this.value)">
+          <small style="color:var(--text-muted);">Ajusta el control deslizante para simular diferentes niveles de inversión.</small>
+        </div>
+
+        <div class="calc-metrics">
+          <div class="calc-metric-box">
+            <div class="calc-metric-val" id="metric-reach">1.200 - 2.800</div>
+            <div class="calc-metric-lbl">Personas Alcanzadas / día</div>
+          </div>
+          <div class="calc-metric-box">
+            <div class="calc-metric-val" id="metric-clicks">35 - 75</div>
+            <div class="calc-metric-lbl">Clics a tu Web / día</div>
+          </div>
+          <div class="calc-metric-box">
+            <div class="calc-metric-val" id="metric-chats" style="color:var(--emerald);">4 - 9</div>
+            <div class="calc-metric-lbl">Mensajes de WhatsApp / día</div>
+          </div>
+          <div class="calc-metric-box">
+            <div class="calc-metric-val" id="metric-monthly" style="color:var(--purple);">120 - 270</div>
+            <div class="calc-metric-lbl">Nuevos Clientes / mes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 5: Guiones para Reels / Video Ads -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>🎬</span> Guiones Segundo a Segundo para Reels & Video Ads</div>
+      <span class="badge badge-purple">Listos para Grabar con el Celular</span>
+    </div>
+
+    <div class="script-card">
+      <h3 style="color:#fff; margin-bottom:0.75rem; font-size:1.1rem;">Guión #1: Gancho de Curiosidad y Demostración Rápida (30 seg)</h3>
+      <div class="script-step"><strong>[0 a 3 seg - Hook Visual]:</strong> (Apareces frente a cámara sosteniendo el producto o mostrando el local): <em>"¿Querés cambiarle la cara a tu living o pieza sin gastar una fortuna?"</em></div>
+      <div class="script-step"><strong>[4 a 15 seg - El Problema / Agitación]:</strong> <em>"Muchos compran apurados o eligen sin asesoramiento y terminan gastando el doble en arreglos o materiales que no rinden."</em></div>
+      <div class="script-step"><strong>[16 a 25 seg - La Solución en Tu Negocio]:</strong> (Tomas rápidas del local, productos o asesorando): <em>"En Tu Negocio te asesoramos en persona, tenemos las mejores marcas, cuotas y entrega rápida en la ciudad."</em></div>
+      <div class="script-step"><strong>[26 a 30 seg - Llamado a la Acción]:</strong> <em>"Tocá el botón acá abajo, escribinos por WhatsApp y te pasamos presupuesto sin compromiso en el acto."</em></div>
+    </div>
+  </div>
+
+  <!-- SECCIÓN 6: Pack de 5 Anuncios -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>🚀</span> Pack de 5 Nuevos Anuncios Listos para Publicar en Meta Ads</div>
+      <span class="badge badge-cyan">Copiar y Pegar en Ads Manager</span>
+    </div>
+
+    
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <span class="ad-angle">Ad #1: Ángulo Renovación y Estética (&quot;Transformá tus espacios&quot;)</span>
+          <span class="impact-pill impact-high">Tráfico a WhatsApp / Catálogo</span>
+        </div>
+        <div class="ad-body">¿Pensando en renovar tu casa, oficina o proyecto? 🎨🏡
+
+En Tu Negocio encontrás todo en ventas de pinturas:
+
+✅ Las mejores marcas con máxima cobertura y durabilidad.
+✅ Asesoramiento personalizado en combinación de colores y texturas.
+✅ Precios directos, cuotas sin interés y envíos rápidos.
+
+👇 Tocá el botón de abajo, contanos qué querés renovar y te armamos un presupuesto a medida por WhatsApp.</div>
+        <div class="ad-meta">
+          <div class="ad-meta-item"><strong>Headline:</strong> Renová tus espacios con Tu Negocio | Asesoramiento y Envíos</div>
+          <div class="ad-meta-item"><strong>Botón CTA:</strong> Consultar por WhatsApp</div>
+          <div class="ad-meta-item"><strong>Formato sugerido:</strong> Carrusel con fotos de antes y después de ambientes pintados y decorados</div>
+        </div>
+      </div>
+    
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <span class="ad-angle">Ad #2: Ángulo Oferta Especial / Cuotas y Ahorro</span>
+          <span class="impact-pill impact-high">Conversión Directa de Compradores</span>
+        </div>
+        <div class="ad-body">Pintar y decorar no tiene que ser un dolor de cabeza ni costar una fortuna. 💳✨
+
+Llevate los mejores productos para tus paredes, pisos y detalles con promociones exclusivas en Tu Negocio.
+
+📦 Stock permanente de productos premium.
+🎨 Preparación de colores exactos en el acto.
+🚚 Entrega directa en obra o en tu domicilio.
+
+👇 Escribinos por WhatsApp y recibí el catálogo de precios y promociones del mes.</div>
+        <div class="ad-meta">
+          <div class="ad-meta-item"><strong>Headline:</strong> Promos Exclusivas en Tu Negocio | Cuotas y Calidad</div>
+          <div class="ad-meta-item"><strong>Botón CTA:</strong> Ver Catálogo / WhatsApp</div>
+          <div class="ad-meta-item"><strong>Formato sugerido:</strong> Foto llamativa de baldes de pintura / productos de diseño con cartel de promo/cuotas</div>
+        </div>
+      </div>
+    
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <span class="ad-angle">Ad #3: Ángulo Asesoramiento Experto (&quot;Evitá errores al pintar/decorar&quot;)</span>
+          <span class="impact-pill impact-med">Autoridad y Tráfico Frío</span>
+        </div>
+        <div class="ad-body">EL ERROR #1 al pintar o decorar: elegir el producto incorrecto para la humedad, la luz o el tipo de superficie. ⚠️🖌️
+
+En Tu Negocio no solo te vendemos el material, te asesoramos paso a paso para que el trabajo rinda el doble y dure años impecable.
+
+📍 Pasá por nuestro local o consultanos online.
+
+👇 Tocá el botón y hablá con un asesor especializado ahora mismo.</div>
+        <div class="ad-meta">
+          <div class="ad-meta-item"><strong>Headline:</strong> Asesoramiento Profesional en Pintura y Deco | Tu Negocio</div>
+          <div class="ad-meta-item"><strong>Botón CTA:</strong> Enviar mensaje</div>
+          <div class="ad-meta-item"><strong>Formato sugerido:</strong> Reel corto mostrando cómo elegir el producto adecuado según la superficie</div>
+        </div>
+      </div>
+    
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <span class="ad-angle">Ad #4: Ángulo de Prueba Social / Clientes y Obras Reales</span>
+          <span class="impact-pill impact-med">Retargeting y Confianza</span>
+        </div>
+        <div class="ad-body">Más hogares, profesionales y empresas confían en Tu Negocio para sus proyectos de pintura y ambientación. ⭐⭐⭐⭐⭐
+
+&quot;Excelente calidad, colores únicos y una atención que te guía en todo momento.&quot;
+
+¿Tenés una idea en mente? Nosotros te ayudamos a hacerla realidad.
+
+👇 Mandanos un mensaje y cotizá hoy mismo.</div>
+        <div class="ad-meta">
+          <div class="ad-meta-item"><strong>Headline:</strong> Clientes 100% Satisfechos | Calidad Garantizada</div>
+          <div class="ad-meta-item"><strong>Botón CTA:</strong> Chatear por WhatsApp</div>
+          <div class="ad-meta-item"><strong>Formato sugerido:</strong> Foto real de ambiente terminado con testimonio superpuesto</div>
+        </div>
+      </div>
+    
+      <div class="ad-card">
+        <div class="ad-card-header">
+          <span class="ad-angle">Ad #5: Ángulo Atención a Profesionales / Pintores y Constructores</span>
+          <span class="impact-pill impact-low">Ventas de Alto Volumen (B2B / Oficios)</span>
+        </div>
+        <div class="ad-body">¿Sos pintor, arquitecto, decorador o constructor? 👷‍♂️📐
+
+En Tu Negocio tenemos condiciones especiales pensadas para vos:
+
+🤝 Descuentos exclusivos por volumen.
+🚚 Envíos programados a pie de obra.
+📦 Disponibilidad inmediata de insumos y herramientas.
+
+👇 Tocá abajo y sumate a nuestra lista de profesionales con beneficios.</div>
+        <div class="ad-meta">
+          <div class="ad-meta-item"><strong>Headline:</strong> Atención Especial a Profesionales y Obras | Tu Negocio</div>
+          <div class="ad-meta-item"><strong>Botón CTA:</strong> Contactar Asesor</div>
+          <div class="ad-meta-item"><strong>Formato sugerido:</strong> Imagen profesional de obra o herramientas de aplicación de alto rendimiento</div>
+        </div>
+      </div>
+    
+  </div>
+
+  <!-- SECCIÓN 7: Checklist -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title"><span>✅</span> Checklist de Implementación Priorizado</div>
+      <span class="badge badge-cyan">Acciones de Mayor Retorno</span>
+    </div>
+
+    <div class="checklist-item">
+      <span class="impact-pill impact-high">Alto</span>
+      <div style="flex:1;">
+        <strong style="color:#fff;">1. Instalar Píxel de Meta y Evento Lead en WhatsApp</strong>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Colocar el código base en la landing y medir cada clic a WhatsApp para optimizar costos de campaña.</p>
+      </div>
+    </div>
+
+    <div class="checklist-item">
+      <span class="impact-pill impact-high">Alto</span>
+      <div style="flex:1;">
+        <strong style="color:#fff;">2. Programar Anuncios en Horarios Pico (11:00 a 14:00 y 18:00 a 21:30 )</strong>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Concentrar el presupuesto en los momentos de mayor propensión de compra y respuesta rápida.</p>
+      </div>
+    </div>
+
+    <div class="checklist-item">
+      <span class="impact-pill impact-med">Medio</span>
+      <div style="flex:1;">
+        <strong style="color:#fff;">3. Grabar Reel con el Guión #1 y Lanzar Campaña con Ad #1 y Ad #2</strong>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Los videos reales grabados con celular tienen hasta un 40% más de retención y menor costo por mensaje.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 2rem 0;">
+    Auditoría generada con el Agente Inspector & Meta Ads Suite • Rendimiento, Tráfico & Seguridad
+  </footer>
+
+</div>
+
+<script>
+function updateRoasCalc(usd) {
+  const budget = parseFloat(usd);
+  const ars = Math.round(budget * 1200);
+  document.getElementById('budget-val').textContent = '$' + budget.toFixed(2) + ' USD (~$' + ars.toLocaleString('es-AR') + ' ARS)';
+  
+  const minReach = Math.round(budget * 400);
+  const maxReach = Math.round(budget * 950);
+  document.getElementById('metric-reach').textContent = minReach.toLocaleString() + ' - ' + maxReach.toLocaleString();
+  
+  const minClicks = Math.round(budget * 12);
+  const maxClicks = Math.round(budget * 25);
+  document.getElementById('metric-clicks').textContent = minClicks + ' - ' + maxClicks;
+  
+  const minChats = Math.max(1, Math.round(budget * 1.5));
+  const maxChats = Math.round(budget * 3.2);
+  document.getElementById('metric-chats').textContent = minChats + ' - ' + maxChats;
+  
+  const monthlyLeadsMin = minChats * 30;
+  const monthlyLeadsMax = maxChats * 30;
+  document.getElementById('metric-monthly').textContent = monthlyLeadsMin + ' - ' + monthlyLeadsMax;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kit Auditoría 360° • Meta Ads & Agente Inspector</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">🕵️‍♂️</div>
+        <div class="brand-text">
+          <span class="brand-title">Meta Ads + Agente Inspector</span>
+          <span class="brand-badge">MARKETING & CODE AUDIT SUITE</span>
+        </div>
+      </div>
+
+      <div class="nav-links">
+        <button class="nav-btn active" data-tab="tab-audit">
+          <span>🚀</span> Auditoría Meta Ads
+        </button>
+        <button class="nav-btn" data-tab="tab-compare">
+          <span>⚔️</span> Comparador Benchmark
+        </button>
+        <button class="nav-btn" data-tab="tab-inspector">
+          <span>🕵️‍♂️</span> Agente Inspector
+        </button>
+        <button class="nav-btn" data-tab="tab-history" id="btn-tab-history">
+          <span>📁</span> Historial (<span id="history-count">0</span>)
+        </button>
+        <button class="nav-btn" data-tab="tab-guide">
+          <span>☁️</span> Nube & Portabilidad
+        </button>
+      </div>
+
+      <div class="nav-status">
+        <span class="status-dot" id="status-dot"></span>
+        <span class="status-text" id="status-text">Detectando...</span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+
+    <!-- Tab 1: Nueva Auditoría de Meta Ads -->
+    <section id="tab-audit" class="tab-pane active">
+      <div class="hero-header">
+        <h1>Auditoría Integral de Meta Ads, Tráfico y Conversión</h1>
+        <p>Inspecciona embudos, detecta horarios pico de interacción, analiza la landing y genera 5 anuncios con guiones de video.</p>
+      </div>
+
+      <div class="audit-grid">
+        <!-- Formulario -->
+        <div class="card form-card">
+          <h2 class="card-title"><span>📋</span> Datos del Negocio a Auditar</h2>
+          <form id="audit-form">
+            
+            <div class="form-group">
+              <label for="businessName">Nombre de la Marca o Negocio *</label>
+              <input type="text" id="businessName" placeholder="Ej: Deco Madryn o INFORMATIC@SUR" required>
+            </div>
+
+            <div class="form-group">
+              <label for="landingUrl">URL de la Landing Page o Sitio Web</label>
+              <input type="url" id="landingUrl" placeholder="https://decomadryn.com.ar/">
+              <small class="form-hint">El sistema inspeccionará Píxeles de Meta, certificados SSL, cabeceras de seguridad y velocidad.</small>
+            </div>
+
+            <div class="form-group">
+              <label for="offerDetails">¿Qué vendes y cuál es la oferta principal? *</label>
+              <textarea id="offerDetails" rows="3" placeholder="Ej: Pinturería, revestimientos texturados y artículos de decoración para el hogar y obras." required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="targetAudience">Público Objetivo</label>
+                <input type="text" id="targetAudience" placeholder="Ej: Residentes locales, dueños de casa, pintores">
+              </div>
+
+              <div class="form-group">
+                <label for="competitors">Competidores (Opcional)</label>
+                <input type="text" id="competitors" placeholder="Ej: Pinturería X, Negocio Y">
+              </div>
+            </div>
+
+            <!-- Selector de Motor / IA -->
+            <div class="engine-box">
+              <div class="engine-header">
+                <label><span>⚙️</span> Modo de Procesamiento:</label>
+                <select id="engineProvider">
+                  <option value="offline">⚡ Motor Adaptativo 360° (100% Offline / Sin API)</option>
+                  <option value="gemini">✨ Google Gemini AI (Requiere API Key / Online)</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="apiKeyGroup" style="display: none; margin-top: 0.85rem;">
+                <label for="geminiApiKey">Gemini API Key</label>
+                <input type="password" id="geminiApiKey" placeholder="AIzaSy...">
+                <small class="form-hint">Se guarda únicamente en tu navegador local.</small>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="btn-submit">
+              <span class="btn-text">Generar Auditoría Completa 360°</span>
+              <span class="btn-icon">⚡</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Panel Lateral Informativo -->
+        <div class="card info-card">
+          <h2 class="card-title"><span>🔍</span> Capacidades de la Auditoría</h2>
+          
+          <ul class="feature-list">
+            <li>
+              <div class="feature-icon">📊</div>
+              <div class="feature-content">
+                <strong>Inteligencia de Tráfico & Demografía</strong>
+                <p>Horarios pico para pautar y fuentes de visitas (Google Maps vs Meta Ads).</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="feature-icon">🛡️</div>
+              <div class="feature-content">
+                <strong>Escáner de Seguridad Web</strong>
+                <p>Cifrado SSL, cabeceras HSTS, protección contra Clickjacking y OpenGraph.</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="feature-icon">💡</div>
+              <div class="feature-content">
+                <strong>6 Mejoras de Conversión (CRO)</strong>
+                <p>Recomendaciones prioritarias para duplicar contactos por WhatsApp.</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="feature-icon">💰</div>
+              <div class="feature-content">
+                <strong>Calculadora Interactiva de ROAS</strong>
+                <p>Simulador en tiempo real de presupuesto diario, clics y clientes mensuales.</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="feature-icon">🎬</div>
+              <div class="feature-content">
+                <strong>Guiones para Reels & Video Ads</strong>
+                <p>Estructura segundo a segundo para grabar videos de alta retención.</p>
+              </div>
+            </li>
+
+            <li>
+              <div class="feature-icon">✍️</div>
+              <div class="feature-content">
+                <strong>Pack de 5 Anuncios Específicos</strong>
+                <p>Copies adaptados al rubro con hooks, titulares y llamadas a la acción.</p>
+              </div>
+            </li>
+          </ul>
+
+          <div class="offline-badge-box">
+            <span class="offline-icon">🛡️</span>
+            <span><strong>100% Funcional sin Internet:</strong> El motor adaptativo analiza y genera todo de forma local y autónoma.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preview Modal / Result Container -->
+      <div id="result-container" class="card result-card" style="display: none;">
+        <div class="result-header">
+          <div>
+            <h2 class="result-title">🎉 ¡Auditoría 360° Generada Exitosamente!</h2>
+            <p class="result-subtitle" id="result-meta"></p>
+          </div>
+          <div class="result-actions">
+            <button class="action-btn" id="btn-print-pdf"><span>🖨️</span> Imprimir / PDF</button>
+            <button class="action-btn" id="btn-open-tab"><span>↗️</span> Abrir en Pestaña</button>
+            <a class="action-btn btn-primary" id="btn-download" download><span>⬇️</span> Descargar HTML</a>
+          </div>
+        </div>
+
+        <div class="iframe-wrapper">
+          <iframe id="report-iframe" title="Vista previa de auditoría"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Comparador de Competidores (Benchmark 1 vs 1) -->
+    <section id="tab-compare" class="tab-pane">
+      <div class="hero-header">
+        <h1>⚔️ Comparativa Directa con Competidores</h1>
+        <p>Analiza tu landing page vs. la de tu competidor directo en paralelo. Descubre brechas de píxeles, velocidad y ciberseguridad.</p>
+      </div>
+
+      <div class="audit-grid">
+        <div class="card form-card">
+          <h2 class="card-title"><span>⚔️</span> Configurar Duelo de URLs</h2>
+          <form id="compare-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="compTargetName">Tu Negocio o Marca *</label>
+                <input type="text" id="compTargetName" placeholder="Ej: Mi Pinturería" required>
+              </div>
+              <div class="form-group">
+                <label for="compTargetUrl">Tu URL Web *</label>
+                <input type="url" id="compTargetUrl" placeholder="https://minegocio.com" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="compRivalName">Nombre del Competidor *</label>
+                <input type="text" id="compRivalName" placeholder="Ej: Competidor X" required>
+              </div>
+              <div class="form-group">
+                <label for="compRivalUrl">URL Web del Competidor *</label>
+                <input type="url" id="compRivalUrl" placeholder="https://competidor.com" required>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="btn-run-compare" style="background: linear-gradient(135deg, var(--rose), var(--purple));">
+              <span class="btn-text">Ejecutar Benchmark Comparativo</span>
+              <span class="btn-icon">⚔️</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="card info-card">
+          <h2 class="card-title"><span>💡</span> Factores del Benchmark</h2>
+          <ul class="feature-list">
+            <li>
+              <div class="feature-icon">🎯</div>
+              <div class="feature-content">
+                <strong>Presencia de Píxeles</strong>
+                <p>Detecta si el rival está pagando pauta sin medir eventos ni audiencias.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon">⚡</div>
+              <div class="feature-content">
+                <strong>Velocidad de Carga</strong>
+                <p>Compara el tiempo de respuesta del servidor (TTFB) y peso en KB.</p>
+              </div>
+            </li>
+            <li>
+              <div class="feature-icon">🛡️</div>
+              <div class="feature-content">
+                <strong>Seguridad y WAF</strong>
+                <p>Inspecciona si el competidor tiene firewall Cloudflare o servidores expuestos.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Resultados del Benchmark -->
+      <div id="compare-results" class="card" style="display: none; margin-top: 1.5rem;">
+        <h2 class="card-title"><span>🏆</span> Resultados del Enfrentamiento Digital</h2>
+        <div id="compare-summary-banner" style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem 1.25rem; border-radius: 10px; margin-bottom: 1.5rem; font-weight: 600;"></div>
+
+        <div class="compare-table-wrapper" style="overflow-x: auto;">
+          <table class="compare-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+            <thead>
+              <tr style="border-bottom: 2px solid var(--card-border);">
+                <th style="padding: 0.8rem;">Métrica Clave</th>
+                <th style="padding: 0.8rem; color: var(--cyan);" id="comp-th-target">Tu Marca</th>
+                <th style="padding: 0.8rem; color: var(--rose);" id="comp-th-rival">Competidor</th>
+                <th style="padding: 0.8rem;">Veredicto</th>
+              </tr>
+            </thead>
+            <tbody id="compare-table-body"></tbody>
+          </table>
+        </div>
+
+        <div class="compare-insights-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
+          <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 10px; padding: 1rem;">
+            <h4 style="color: var(--emerald); margin-bottom: 0.5rem;">🌟 Tus Ventajas Competitivas</h4>
+            <ul id="compare-advantages-list" style="padding-left: 1.2rem; font-size: 0.85rem; line-height: 1.6;"></ul>
+          </div>
+          <div style="background: rgba(244, 63, 94, 0.08); border: 1px solid rgba(244, 63, 94, 0.2); border-radius: 10px; padding: 1rem;">
+            <h4 style="color: var(--rose); margin-bottom: 0.5rem;">⚠️ Oportunidades / Desventajas</h4>
+            <ul id="compare-weaknesses-list" style="padding-left: 1.2rem; font-size: 0.85rem; line-height: 1.6;"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 3: Agente Inspector (Auditoría de Código y Seguridad) -->
+    <section id="tab-inspector" class="tab-pane">
+      <div class="hero-header">
+        <h1>🕵️‍♂️ Agente Inspector de Código & Seguridad</h1>
+        <p>Auditoría forense de seguridad, escáner de credenciales/secretos expuestos y análisis estático con corrección automática.</p>
+      </div>
+
+      <div class="audit-grid">
+        <div class="card form-card">
+          <h2 class="card-title"><span>🛡️</span> Configurar Inspección</h2>
+          
+          <form id="inspector-form">
+            <div class="form-group">
+              <label for="inspectorTarget">Ruta o Directorio a Inspeccionar</label>
+              <input type="text" id="inspectorTarget" value="." placeholder=". o src/">
+              <small class="form-hint">Usa <code>.</code> para inspeccionar todo el proyecto actual o indica una carpeta.</small>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>Opciones Especiales</label>
+                <div style="display: flex; gap: 1rem; margin-top: 0.5rem; flex-wrap: wrap;">
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                    <input type="checkbox" id="inspectorFix" style="width: auto;"> 🛠️ Aplicar Auto-Fix (--fix)
+                  </label>
+                  <label style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                    <input type="checkbox" id="inspectorAi" style="width: auto;"> 🤖 Análisis con Gemini IA (--ai)
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="btn-run-inspector" style="background: linear-gradient(135deg, var(--purple), var(--cyan));">
+              <span class="btn-text">Ejecutar Escaneo del Agente Inspector</span>
+              <span class="btn-icon">🕵️‍♂️</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="card info-card">
+          <h2 class="card-title"><span>⚡</span> Estado del Agente Inspector</h2>
+          <div id="inspector-status-box" style="font-size: 0.9rem; color: var(--text-muted);">
+            <p><strong>Ubicación:</strong> <code>/home/ac3v32/Escritorio/PROYECTOS EN PRODUCCION/agente inspector</code></p>
+            <p style="margin-top: 0.5rem;"><strong>Reglas Activas:</strong></p>
+            <ul style="margin-left: 1.2rem; margin-top: 0.3rem; font-size: 0.85rem; line-height: 1.6;">
+              <li>🔑 Detector de Secretos & Tokens (AWS, GitHub, Stripe, JWT)</li>
+              <li>🛡️ OWASP Top 10 (SQL Injection, eval, shell=True)</li>
+              <li>⚡ Calidad de Código & Code Smells</li>
+              <li>🤖 Integración con Gemini AI en CI/CD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resultados del Inspector -->
+      <div id="inspector-results" class="card" style="display: none; margin-top: 1.5rem;">
+        <h2 class="card-title"><span>📊</span> Resumen Ejecutivo de Inspección</h2>
+        
+        <div class="pillar-grid" style="margin-bottom: 1.5rem;">
+          <div class="pillar-box">
+            <div class="pillar-label">Salud del Código</div>
+            <div class="pillar-val" id="insp-score" style="color: var(--emerald);">95/100</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-label">🚨 Críticos</div>
+            <div class="pillar-val" id="insp-critical" style="color: var(--rose);">0</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-label">⚠️ Altos</div>
+            <div class="pillar-val" id="insp-high" style="color: var(--amber);">0</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-label">⚡ Medios</div>
+            <div class="pillar-val" id="insp-med" style="color: var(--cyan);">0</div>
+          </div>
+          <div class="pillar-box">
+            <div class="pillar-label">ℹ️ Bajos / Info</div>
+            <div class="pillar-val" id="insp-low" style="color: var(--purple);">0</div>
+          </div>
+        </div>
+
+        <h3 style="font-size: 1rem; color: #fff; margin-bottom: 0.5rem;">Terminal del Agente Inspector:</h3>
+        <pre id="inspector-console" style="background: #0d1117; border: 1px solid #30363d; border-radius: 10px; padding: 1.2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #e2e8f0; overflow-x: auto; max-height: 400px; white-space: pre-wrap;"></pre>
+      </div>
+    </section>
+
+    <!-- Tab 3: Historial de Reportes -->
+    <section id="tab-history" class="tab-pane">
+      <div class="section-header">
+        <div>
+          <h1>Historial de Auditorías Guardadas</h1>
+          <p>Consulta, visualiza y descarga todos los informes generados en tu equipo.</p>
+        </div>
+        <button class="action-btn" id="btn-refresh-history"><span>🔄</span> Actualizar</button>
+      </div>
+
+      <div id="history-list" class="history-grid"></div>
+    </section>
+
+    <!-- Tab 4: Guía & Nube -->
+    <section id="tab-guide" class="tab-pane">
+      <div class="card guide-card">
+        <h1>☁️ Cómo Desplegar en la Nube y Usar sin Conexión</h1>
+        
+        <div class="guide-steps">
+          <div class="guide-step">
+            <h3>1. Despliegue en la Nube (Vercel / Render / Railway)</h3>
+            <p>Puedes alojar esta herramienta en cualquier servicio gratuito:</p>
+            <ol>
+              <li>Sube esta carpeta a tu cuenta de <strong>GitHub</strong>.</li>
+              <li>Entra a <a href="https://vercel.com" target="_blank" style="color: #38bdf8;">Vercel.com</a> o <a href="https://render.com" target="_blank" style="color: #38bdf8;">Render.com</a>.</li>
+              <li>Importa el repositorio y haz clic en <strong>Deploy</strong>.</li>
+              <li>¡Listo! Tendrás tu URL pública para auditar desde tu celular o cualquier PC.</li>
+            </ol>
+          </div>
+
+          <div class="guide-step">
+            <h3>2. Uso Local con el Agente Inspector</h3>
+            <p>Para usarlo en tu PC:</p>
+            <ul>
+              <li><strong>En Linux:</strong> Haz doble clic en <code>Auditor-Meta-Ads.desktop</code> o ejecuta <code>./iniciar.sh</code>.</li>
+              <li><strong>En Windows:</strong> Haz doble clic en <code>iniciar.bat</code>.</li>
+            </ul>
+            <p>La pestaña <strong>Agente Inspector</strong> ejecutará el motor de inspección de Python ubicado en <code>agente inspector</code> de forma automática.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

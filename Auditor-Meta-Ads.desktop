@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Auditor Meta Ads
+Comment=Herramienta de Auditoría Meta Ads & Landing Pages
+Exec=/bin/bash -c "cd '/home/ac3v32/Descargas/viejos/10 SKILLS ADRI Y JUANPE/10 SKILLS ADRI Y JUANPE/kit-auditoria-meta-ads' && ./iniciar.sh"
+Icon=web-browser
+Terminal=true
+Categories=Development;Office;

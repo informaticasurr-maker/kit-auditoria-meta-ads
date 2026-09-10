@@ -1,0 +1,38 @@
+name: Auditoría con Agente Inspector
+
+on:
+  push:
+    branches: [ main, master, dev ]
+  pull_request:
+    branches: [ main, master, dev ]
+
+jobs:
+  inspect:
+    name: Inspección de Seguridad y Calidad
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar Código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Instalar Agente Inspector
+        run: |
+          python -m pip install --upgrade pip
+          pip install git+https://github.com/informaticasurr-maker/agente-inspector.git
+
+      - name: Ejecutar Auditoría
+        run: |
+          inspector scan . --fail-on HIGH --sarif
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+      - name: Publicar Reporte en GitHub Summary
+        if: always()
+        run: |
+          if [ -f INSPECTION_REPORT.md ]; then
+            cat INSPECTION_REPORT.md >> $GITHUB_STEP_SUMMARY
+          fi

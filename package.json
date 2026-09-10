@@ -1,0 +1,21 @@
+{
+  "name": "kit-auditoria-meta-ads",
+  "version": "1.0.0",
+  "description": "Herramienta portable y web de auditoría para Meta Ads y Landing Pages con modo Online e Híbrido Offline",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "meta-ads",
+    "facebook-ads",
+    "landing-page",
+    "audit",
+    "growth-marketing",
+    "offline"
+  ],
+  "author": "Adri y Juanpe / INFORMATIC@SUR",
+  "license": "MIT"
+}
