@@ -11,12 +11,16 @@ const { runInspectorScan } = require('./src/inspector-bridge');
 
 let PORT = parseInt(process.env.PORT, 10) || 3005;
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const REPORTS_DIR = path.join(__dirname, 'reportes');
+const REPORTS_DIR = process.env.VERCEL
+  ? path.join('/tmp', 'reportes')
+  : path.join(__dirname, 'reportes');
 
 // Asegurar que la carpeta de reportes exista
-if (!fs.existsSync(REPORTS_DIR)) {
-  fs.mkdirSync(REPORTS_DIR, { recursive: true });
-}
+try {
+  if (!fs.existsSync(REPORTS_DIR)) {
+    fs.mkdirSync(REPORTS_DIR, { recursive: true });
+  }
+} catch (e) {}
 
 // Tipos MIME comunes
 const MIME_TYPES = {
@@ -26,11 +30,12 @@ const MIME_TYPES = {
   '.json': 'application/json; charset=utf-8',
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon'
 };
 
-const server = http.createServer(async (req, res) => {
+async function handleRequest(req, res) {
   const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = reqUrl.pathname;
 
@@ -190,7 +195,9 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('404 Not Found');
   }
-});
+}
+
+const server = http.createServer(handleRequest);
 
 function startServer(port) {
   server.listen(port, () => {
@@ -209,6 +216,11 @@ function startServer(port) {
   });
 }
 
-startServer(PORT);
+// Iniciar servidor solo en entorno local (no en Vercel serverless)
+if (require.main === module && !process.env.VERCEL) {
+  startServer(PORT);
+}
 
-module.exports = server;
+module.exports = handleRequest;
+module.exports.handleRequest = handleRequest;
+module.exports.server = server;
