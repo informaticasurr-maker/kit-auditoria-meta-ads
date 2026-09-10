@@ -35,6 +35,32 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
+// Función universal para leer el body (compatible con Node local y Vercel Serverless)
+async function parseRequestBody(req) {
+  if (req.body !== undefined && req.body !== null) {
+    if (typeof req.body === 'object') return req.body;
+    if (typeof req.body === 'string') {
+      try { return JSON.parse(req.body); } catch (e) { return {}; }
+    }
+  }
+
+  return new Promise((resolve) => {
+    let body = '';
+    req.on('data', chunk => {
+      body += chunk;
+      if (body.length > 1e6) req.destroy();
+    });
+    req.on('end', () => {
+      try {
+        resolve(JSON.parse(body || '{}'));
+      } catch (e) {
+        resolve({});
+      }
+    });
+    req.on('error', () => resolve({}));
+  });
+}
+
 async function handleRequest(req, res) {
   const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   const pathname = reqUrl.pathname;
@@ -53,6 +79,12 @@ async function handleRequest(req, res) {
   // 1. API: Listar Historial de Reportes
   if (req.method === 'GET' && pathname === '/api/reports') {
     try {
+      if (!fs.existsSync(REPORTS_DIR)) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ success: true, reports: [] }));
+        return;
+      }
+
       const files = fs.readdirSync(REPORTS_DIR)
         .filter(f => f.endsWith('.html'))
         .map(f => {
@@ -79,88 +111,68 @@ async function handleRequest(req, res) {
 
   // 2. API: Ejecutar Auditoría de Meta Ads & Landing
   if (req.method === 'POST' && pathname === '/api/audit') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk;
-      if (body.length > 1e6) req.destroy(); // Limitar 1MB
-    });
+    try {
+      const payload = await parseRequestBody(req);
+      const auditResult = await runAudit(payload);
 
-    req.on('end', async () => {
+      // Guardar archivo HTML en /reportes/
+      const sanitizedBusiness = (payload.businessName || 'auditoria')
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')
+        .replace(/-+/g, '-');
+      
+      const timestamp = Date.now();
+      const filename = `auditoria-meta-ads-${sanitizedBusiness}-${timestamp}.html`;
+      const filePath = path.join(REPORTS_DIR, filename);
+
       try {
-        const payload = JSON.parse(body || '{}');
-        const auditResult = await runAudit(payload);
-
-        // Guardar archivo HTML en /reportes/
-        const sanitizedBusiness = (payload.businessName || 'auditoria')
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, '-')
-          .replace(/-+/g, '-');
-        
-        const timestamp = Date.now();
-        const filename = `auditoria-meta-ads-${sanitizedBusiness}-${timestamp}.html`;
-        const filePath = path.join(REPORTS_DIR, filename);
-
         fs.writeFileSync(filePath, auditResult.html, 'utf-8');
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({
-          success: true,
-          filename,
-          reportUrl: `/reports/${filename}`,
-          engine: auditResult.engine,
-          html: auditResult.html
-        }));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: err.message }));
+      } catch (writeErr) {
+        console.warn('No se pudo guardar reporte en disco (normal en serverless read-only):', writeErr.message);
       }
-    });
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        success: true,
+        filename,
+        reportUrl: `/reports/${filename}`,
+        engine: auditResult.engine,
+        html: auditResult.html
+      }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
     return;
   }
 
   // 3. API: Comparativa 1 vs 1 con Competidor (Benchmark)
   if (req.method === 'POST' && pathname === '/api/compare') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk;
-      if (body.length > 1e6) req.destroy();
-    });
+    try {
+      const payload = await parseRequestBody(req);
+      const compareResult = await compareCompetitors(payload);
 
-    req.on('end', async () => {
-      try {
-        const payload = JSON.parse(body || '{}');
-        const compareResult = await compareCompetitors(payload);
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: true, ...compareResult }));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-      }
-    });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, ...compareResult }));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
     return;
   }
 
   // 4. API: Ejecutar Escaneo del Agente Inspector de Código y Seguridad
   if (req.method === 'POST' && pathname === '/api/inspector-scan') {
-    let body = '';
-    req.on('data', chunk => {
-      body += chunk;
-      if (body.length > 1e6) req.destroy();
-    });
+    try {
+      const payload = await parseRequestBody(req);
+      const scanResult = await runInspectorScan(payload);
 
-    req.on('end', async () => {
-      try {
-        const payload = JSON.parse(body || '{}');
-        const scanResult = await runInspectorScan(payload);
-
-        res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify(scanResult));
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ success: false, error: err.message }));
-      }
-    });
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(scanResult));
+    } catch (err) {
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: err.message }));
+    }
     return;
   }
 

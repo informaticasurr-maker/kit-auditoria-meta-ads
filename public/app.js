@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (err) {
       console.error(err);
-      alert('Error de conexión con el servidor local.');
+      alert('Error de conexión: ' + (err.message || 'No se pudo comunicar con el servidor.'));
     } finally {
       btnSubmit.disabled = false;
       btnSubmit.querySelector('.btn-text').textContent = 'Generar Auditoría Completa 360°';
